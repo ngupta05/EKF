@@ -129,7 +129,7 @@ void EKF::processRadarUpdate(const RadarUpdate& update) {
     return;
   }
 
-  float dt = (update.getTimestamp() - m_lastTimestamp) / 1000000;
+  float dt = (update.getTimestamp() - m_lastTimestamp) / 1000000.0;
   m_lastTimestamp = update.getTimestamp();
   updateF(dt);
   updateQ(dt);
