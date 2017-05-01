@@ -150,7 +150,15 @@ void EKF::processRadarUpdate(const RadarUpdate& update) {
   hx(0, 0) = sqrt(px*px + py*py);
   hx(1, 0) = fabs(px) < 1e-5 ?  atan2(py, 1e-5) : atan2(py, px);
   hx(2, 0) = hx(0, 0) < 1e-5 ? 1e8 : (px*vx + py*vy) / hx(0, 0);
-  Matrix y = z - hx; 
+  Matrix y = z - hx;
+  // Adjust phi in y
+  float pi = 3.141592;
+  while (y(1, 0) < -pi || y(1, 0) > pi) {
+    if (y(1, 0) < -pi)
+      y(1, 0) += 2 * pi;
+    else
+      y(1, 0) -= 2 * pi;
+  }
 
   // update HRadar
   updateHRadar(); // calculates Jacobian
