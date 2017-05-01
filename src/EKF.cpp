@@ -150,8 +150,8 @@ void EKF::processRadarUpdate(const RadarUpdate& update) {
   float vx = m_state(2, 0);
   float vy = m_state(3, 0);
   hx(0, 0) = sqrt(px*px + py*py);
-  hx(1, 0) = fabs(px) < 1e-5 ?  atan2(py, 1e-5) : atan2(py, px);
-  hx(2, 0) = hx(0, 0) < 1e-5 ? 1e8 : (px*vx + py*vy) / hx(0, 0);
+  hx(1, 0) = atan2(py, px);
+  hx(2, 0) = (px*vx + py*vy) / hx(0, 0);
   Matrix y = z - hx;
   // Adjust phi in y
   float pi = 3.141592;
