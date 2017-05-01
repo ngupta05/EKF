@@ -53,6 +53,8 @@ Matrix Matrix::transpose() const {
 }
 
 float& Matrix::operator()(int row, int col) {
+  if (row >= m_rows || col >= m_cols)
+    throw std::invalid_argument("Invalid index");
   return m_matrix[row][col];
 }
 

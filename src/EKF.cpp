@@ -90,8 +90,8 @@ void EKF::predict() {
 void EKF::processLidarUpdate(const LidarUpdate& update) {
   if (m_firstUpdate) {
     m_firstUpdate = false;
-    m_state(0, 1) = update.getX();
-    m_state(1, 1) = update.getY();
+    m_state(0, 0) = update.getX();
+    m_state(1, 0) = update.getY();
     m_lastTimestamp = update.getTimestamp();
     return;
   }
@@ -122,7 +122,7 @@ void EKF::processRadarUpdate(const RadarUpdate& update) {
     float rho = update.getRho();
     float phi = update.getPhi();
     m_state(0, 0) = rho * cos(phi); // x
-    m_state(0, 1) = rho * sin(phi); // y
+    m_state(1, 0) = rho * sin(phi); // y
     m_lastTimestamp = update.getTimestamp();
     return;
   }
