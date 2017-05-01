@@ -10,9 +10,11 @@ EKF::EKF():
   m_Q(4, 4), m_HRadar(3, 4), m_HLidar(2, 4), 
   m_HLidarT(4, 2), m_RRadar(3, 3), m_RLidar(2, 2), m_I(4,4) {
 
+  m_state(0, 0) = m_state(1, 0) = m_state(2, 0) = m_state(3, 0) = 1;
+
   // Initialize P
   // Unknown position and speed
-  m_P(0, 0) = m_P(1, 1) = 1000;
+  m_P(0, 0) = m_P(1, 1) = 1;
   m_P(2, 2) = m_P(3, 3) = 1000;
 
   // Initialize F
