@@ -9,7 +9,7 @@
 class EKF {
   Matrix m_state;
   bool m_firstUpdate;
-  float m_lastTimestamp;
+  uint64_t m_lastTimestamp;
   Matrix m_P;
   Matrix m_F;
   Matrix m_Q;
