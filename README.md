@@ -11,3 +11,9 @@ updated state after each step, to compute RMSE later
 - State.h: Describes state for interaction between EKF and main.cpp
 - Tools.h/cpp: Implements RMSE calculator
 - Update.h: Defines datastructures for Lidar and Radar measurements
+
+Build and run instructions:
+- Download the repo and 'cd' to main repo folder
+- mkdir build && cd build
+- cmake .. && make
+- Run: ./ExtendedKF ../data/obj_pose-laser-radar-synthetic-input.txt output.txt
