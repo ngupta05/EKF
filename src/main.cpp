@@ -74,9 +74,9 @@ int main(int argc, char** argv) {
 
   State rmse = Tools::calculateRMSE(estimates, groundTruth); 
 
-  std::cout << "Accuracy - RMSE:" << std::endl
-    << rmse.x << "\t" << rmse.y << "\t"
-    << rmse.vx << "\t" << rmse.vy << "\t" << std::endl;
+  std::cout << "RMSE" << std::endl
+    << rmse.x << std::endl << rmse.y << std::endl
+    << rmse.vx << std::endl << rmse.vy << std::endl;
 
   return 0;
 }
