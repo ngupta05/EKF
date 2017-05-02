@@ -136,7 +136,7 @@ void adjoint(float A[N][N], float adj[N][N], int n) {
  
 // Function to calculate and store inverse, returns false if
 // matrix is singular
-Matrix Matrix::inverse() const {
+Matrix Matrix::inverse_cofactors() const {
   if (m_rows != m_cols) {
     throw std::invalid_argument("Cannot invert non-sq matrix");
   }
@@ -162,5 +162,64 @@ Matrix Matrix::inverse() const {
     for (int j = 0; j < m_cols; j++)
       inverse(i, j) = adj[i][j]/ det;
  
+  return inverse;
+}
+
+template<typename T>
+void swap(T& a, T& b) {
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+
+void divRow(std::vector<float>& row, float factor) {
+  for (unsigned int i = 0; i < row.size(); i++)
+    row[i] /= factor;
+}
+
+void subRow(std::vector<float>& a, std::vector<float>& b, float factor) {
+  for (unsigned int i = 0; i < a.size(); i++)
+    a[i] -= factor * b[i];
+}
+
+Matrix Matrix::inverse() const {
+  if (m_rows != m_cols) {
+    throw std::invalid_argument("Cannot invert non-sq matrix");
+  }
+
+  Matrix copy = *this;
+  Matrix inverse(m_rows, m_cols);
+  for (int i = 0; i < m_rows; i++)
+    inverse(i, i) = 1;
+  
+  // Find elementary row operations
+  for (int i = 0; i < m_rows; i++) {
+    if (fabs(copy(i, i)) < 1e-5) { // zero value, make it non-zero
+      for (int j = i + 1; j < m_rows; j++) {
+        if (fabs(copy(j, i)) > 1e-5)  { // non-zero row
+          // swap rows
+          swap(inverse.m_matrix[i], inverse.m_matrix[j]);
+          swap(copy.m_matrix[i], copy.m_matrix[j]);
+          break;
+        } else if (j == m_rows - 1) {
+          throw std::invalid_argument("Can't find inverse");
+        }
+      }
+    }
+
+    // divide elem(i, i) by itself to make it 1
+    float divFactor = copy(i, i);
+    divRow(copy.m_matrix[i], divFactor);
+    divRow(inverse.m_matrix[i], divFactor);
+
+    for (int j = 0; j < m_rows; j++) {
+      if ((j != i) && (fabs(copy(j, i)) > 1e-5)) {
+        float mulFactor = copy(j, i);
+        subRow(copy.m_matrix[j], copy.m_matrix[i], mulFactor);
+        subRow(inverse.m_matrix[j], inverse.m_matrix[i], mulFactor);
+      }
+    }
+  }
+
   return inverse;
 }

@@ -14,6 +14,7 @@ class Matrix {
   Matrix operator-(const Matrix& rhs) const;
   Matrix operator*(const Matrix& rhs) const;
   Matrix inverse() const;
+  Matrix inverse_cofactors() const; // minors, cofactor method
   Matrix transpose() const;
   float& operator()(int row, int col);
  
